@@ -1,4 +1,4 @@
-const PORT = 3000
+const PORT = 3005
 
 const express = require('express')
 const cheerio = require('cheerio')
@@ -6,7 +6,9 @@ const axios = require('axios')
 
 const x = express()
 
-const url = 'https://thehimalayantimes.com/'
+const url = 'https://www.ndtv.com/'
+
+x.listen(PORT,() => console.log('server running on PORT'+PORT))
 
 axios (url)
 .then(response => {
@@ -14,10 +16,10 @@ axios (url)
     const $ = cheerio.load(html)
     const articles = []
 
-    $('.alith_post_title', html).each(function()
+    $('.item-title', html).each(function()
     {
         const title = $(this).text()
-        const url = $(this).find('a').attr('href')
+        const url = $(this).attr('href')
         articles.push({
             title,
             url,
@@ -26,4 +28,5 @@ axios (url)
     console.log(articles)
     }).catch(err => console.log(err))
 
-x.listen(PORT,() => console.log('server running on PORT ${PORT}'))
+
+
